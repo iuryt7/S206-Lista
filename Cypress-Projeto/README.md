@@ -36,4 +36,4 @@ Cada suíte contém no mínimo 6 testes, incluindo pelo menos 1 caso negativo.
 
 ## Autores
 - Paulo Vicente de Carvalho Porto
-- [Demais integrantes do grupo aqui]
+- 
