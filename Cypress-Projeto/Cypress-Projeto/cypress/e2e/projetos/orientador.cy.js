@@ -1,8 +1,10 @@
 describe('Testes da página de Orientador - confianopai.com', () => {
   beforeEach(() => {
-    cy.visit('/orientador')
-  })
-
+    cy.visit('https://confianopai.com');
+    cy.get(':nth-child(2) > .sc-ktwOfi').type('paulov@3');
+    cy.get(':nth-child(3) > .sc-ktwOfi').type('123');
+    cy.get('.sc-csKJxZ').click();
+  });
   it('Deve exibir informações do orientador', () => {
     cy.contains('Orientador').should('exist')
     cy.get('.orientador-info').should('exist')
