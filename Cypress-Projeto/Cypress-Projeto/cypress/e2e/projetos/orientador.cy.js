@@ -1,39 +1,38 @@
-describe('Testes da página de Orientador - confianopai.com', () => {
+describe('Projetos do Orientador', () => {
   beforeEach(() => {
     cy.visit('https://confianopai.com');
-    cy.get(':nth-child(2) > .sc-ktwOfi').type('paulov@3');
-    cy.get(':nth-child(3) > .sc-ktwOfi').type('123');
-    cy.get('.sc-csKJxZ').click();
+    cy.get('input.cityPW').eq(0).should('be.visible').type('Porto@gmail.com');
+    cy.get('input.cityPW').eq(1).should('be.visible').type('123');
+    cy.get('button.sc-csKJxZ').contains('Entrar').click();
+    cy.url().should('include', '/orientador');
   });
-  it('Deve exibir informações do orientador', () => {
-    cy.contains('Orientador').should('exist')
-    cy.get('.orientador-info').should('exist')
-  })
+
+  it('Deve exibir a seção de Projetos', () => {
+    cy.contains('Projetos').should('exist');
+  });
 
   it('Deve listar os projetos orientados', () => {
-    cy.contains('Projetos Orientados').should('exist')
-    cy.get('.project-card').should('have.length.at.least', 1)
-  })
+    cy.get('.sc-bZHSRq').should('have.length.greaterThan', 0);
+  });
 
-  it('Deve exibir alunos orientados', () => {
-    cy.contains('Alunos Orientados').should('exist')
-    cy.get('.student-card').should('have.length.at.least', 1)
-  })
+  it('Deve exibir nome do aluno e status no projeto', () => {
+    cy.get('.sc-bZHSRq').first().within(() => {
+      cy.contains('Paulo porto').should('exist');
+      cy.contains('Status:').should('exist');
+    });
+  });
 
-  it('Deve filtrar projetos orientados por categoria', () => {
-    cy.get('select').select('Engenharia')
-    cy.get('.project-card').each(($el) => {
-      cy.wrap($el).contains('Engenharia')
-    })
-  })
+  it('Deve navegar para detalhes do projeto ao clicar', () => {
+    cy.get('a[href^="/orientador/projetos/"]').first().click();
+    cy.url().should('include', '/orientador/projetos/');
+  });
 
-  it('Deve navegar para detalhes de um projeto orientado', () => {
-    cy.get('.project-card').first().click()
-    cy.url().should('include', '/projeto/')
-  })
+  it('Teste negativo: buscar projeto inexistente deve retornar 0 projetos', () => {
+    cy.get('input[placeholder="Procurar Projeto..."]').type('Projeto Inexistente');
+    cy.get('.sc-bZHSRq').should('have.length', 0);
+  });
 
-  it('Teste negativo: selecionar categoria inválida retorna 0 projetos', () => {
-    cy.get('select').select('---')
-    cy.get('.project-card').should('have.length', 0)
-  })
-})
+  it('Deve exibir botão de logout após login', () => {
+    cy.contains('Logout').should('be.visible');
+  });
+});
