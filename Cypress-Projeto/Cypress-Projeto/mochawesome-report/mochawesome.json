@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 2,
-    "start": "2025-05-24T14:05:47.853Z",
-    "end": "2025-05-24T14:06:00.563Z",
-    "duration": 12710,
+    "start": "2025-05-24T14:11:56.426Z",
+    "end": "2025-05-24T14:12:09.049Z",
+    "duration": 12623,
     "testsRegistered": 3,
     "passPercent": 33.33333333333333,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "202a3442-cd02-49ad-ba92-068f1d03e7fe",
+      "uuid": "e09e2d80-e328-4480-ad94-23dbe593ec7e",
       "title": "",
       "fullFile": "cypress\\e2e\\projetos\\projetos.cy.js",
       "file": "cypress\\e2e\\projetos\\projetos.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+          "uuid": "0c458106-f0c8-4506-9540-5b8de17481d6",
           "title": "Testes da funcionalidade Projetos",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "Deve acessar a página de Projetos com sucesso",
               "fullTitle": "Testes da funcionalidade Projetos Deve acessar a página de Projetos com sucesso",
               "timedOut": null,
-              "duration": 1615,
+              "duration": 1600,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -47,8 +47,8 @@
               "context": null,
               "code": "cy.contains('Projetos').click();\ncy.url().should('include', '/projetos');\ncy.contains('Projetos').should('be.visible');",
               "err": {},
-              "uuid": "b999750a-defb-41fa-8526-ad2e53fb6d47",
-              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "uuid": "553318d8-bd44-4f0a-8f56-a4b55a516d58",
+              "parentUUID": "0c458106-f0c8-4506-9540-5b8de17481d6",
               "isHook": false,
               "skipped": false
             },
@@ -56,7 +56,7 @@
               "title": "Deve cadastrar um projeto válido",
               "fullTitle": "Testes da funcionalidade Projetos Deve cadastrar um projeto válido",
               "timedOut": null,
-              "duration": 4975,
+              "duration": 4972,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -69,8 +69,8 @@
                 "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.\n    at Context.eval (webpack://s206-cypress-tests/./cypress/e2e/projetos/projetos.cy.js:16:7)",
                 "diff": null
               },
-              "uuid": "c6be316b-c7fb-4d6d-b0f9-1e08098193c8",
-              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "uuid": "c6a86db1-eaa7-4090-ab3a-e101e85aaf7e",
+              "parentUUID": "0c458106-f0c8-4506-9540-5b8de17481d6",
               "isHook": false,
               "skipped": false
             },
@@ -78,7 +78,7 @@
               "title": "Não deve cadastrar projeto com nome vazio (caso negativo)",
               "fullTitle": "Testes da funcionalidade Projetos Não deve cadastrar projeto com nome vazio (caso negativo)",
               "timedOut": null,
-              "duration": 4935,
+              "duration": 4921,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -91,23 +91,23 @@
                 "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.\n    at Context.eval (webpack://s206-cypress-tests/./cypress/e2e/projetos/projetos.cy.js:24:7)",
                 "diff": null
               },
-              "uuid": "bca9b55a-2f11-4f72-81a4-a42dacf7911d",
-              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "uuid": "d0e310eb-a8d5-428e-8022-e22bf16b9d8e",
+              "parentUUID": "0c458106-f0c8-4506-9540-5b8de17481d6",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "b999750a-defb-41fa-8526-ad2e53fb6d47"
+            "553318d8-bd44-4f0a-8f56-a4b55a516d58"
           ],
           "failures": [
-            "c6be316b-c7fb-4d6d-b0f9-1e08098193c8",
-            "bca9b55a-2f11-4f72-81a4-a42dacf7911d"
+            "c6a86db1-eaa7-4090-ab3a-e101e85aaf7e",
+            "d0e310eb-a8d5-428e-8022-e22bf16b9d8e"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 11525,
+          "duration": 11493,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
