@@ -1,0 +1,147 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 1,
+    "pending": 0,
+    "failures": 2,
+    "start": "2025-05-24T14:05:47.853Z",
+    "end": "2025-05-24T14:06:00.563Z",
+    "duration": 12710,
+    "testsRegistered": 3,
+    "passPercent": 33.33333333333333,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "202a3442-cd02-49ad-ba92-068f1d03e7fe",
+      "title": "",
+      "fullFile": "cypress\\e2e\\projetos\\projetos.cy.js",
+      "file": "cypress\\e2e\\projetos\\projetos.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+          "title": "Testes da funcionalidade Projetos",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Deve acessar a página de Projetos com sucesso",
+              "fullTitle": "Testes da funcionalidade Projetos Deve acessar a página de Projetos com sucesso",
+              "timedOut": null,
+              "duration": 1615,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Projetos').click();\ncy.url().should('include', '/projetos');\ncy.contains('Projetos').should('be.visible');",
+              "err": {},
+              "uuid": "b999750a-defb-41fa-8526-ad2e53fb6d47",
+              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Deve cadastrar um projeto válido",
+              "fullTitle": "Testes da funcionalidade Projetos Deve cadastrar um projeto válido",
+              "timedOut": null,
+              "duration": 4975,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Novo Projeto').click();\ncy.get('input[name=nome]').type('Projeto Teste');\ncy.get('textarea[name=descricao]').type('Descrição do projeto.');\ncy.get('button[type=submit]').click();\ncy.contains('Projeto cadastrado com sucesso').should('be.visible');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.\n    at Context.eval (webpack://s206-cypress-tests/./cypress/e2e/projetos/projetos.cy.js:16:7)",
+                "diff": null
+              },
+              "uuid": "c6be316b-c7fb-4d6d-b0f9-1e08098193c8",
+              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Não deve cadastrar projeto com nome vazio (caso negativo)",
+              "fullTitle": "Testes da funcionalidade Projetos Não deve cadastrar projeto com nome vazio (caso negativo)",
+              "timedOut": null,
+              "duration": 4935,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Novo Projeto').click();\ncy.get('textarea[name=descricao]').type('Sem nome.');\ncy.get('button[type=submit]').click();\ncy.contains('Nome é obrigatório').should('be.visible');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.",
+                "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Novo Projeto' but never did.\n    at Context.eval (webpack://s206-cypress-tests/./cypress/e2e/projetos/projetos.cy.js:24:7)",
+                "diff": null
+              },
+              "uuid": "bca9b55a-2f11-4f72-81a4-a42dacf7911d",
+              "parentUUID": "8ea9fd7e-aa3a-43d8-a573-71869f5cd1fc",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b999750a-defb-41fa-8526-ad2e53fb6d47"
+          ],
+          "failures": [
+            "c6be316b-c7fb-4d6d-b0f9-1e08098193c8",
+            "bca9b55a-2f11-4f72-81a4-a42dacf7911d"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 11525,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

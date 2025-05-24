@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress run",
-    "report": "npx cypress run --reporter mochawesome"
+    "report": "npx cypress run --reporter mochawesome",
+    "merge-reports": "mochawesome-merge cypress/reports/*.json > cypress/reports/output.json",
+    "generate-report": "marge cypress/reports/output.json -f report -o cypress/reports/html"
   },
   "devDependencies": {
     "cypress": "^12.0.0",
@@ -15,3 +17,4 @@
     "mochawesome-report-generator": "^6.2.0"
   }
 }
+
