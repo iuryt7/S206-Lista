@@ -35,4 +35,19 @@ describe('Projetos do Orientador', () => {
   it('Deve exibir botão de logout após login', () => {
     cy.contains('Logout').should('be.visible');
   });
+
+  it('Deve filtrar projetos pelo nome corretamente', () => {
+    cy.get('input[placeholder="Procurar Projeto..."]').type('Testes106');
+    cy.get('.sc-bZHSRq').should('contain.text', 'Testes106');
+  });
+
+  it('Deve retornar 0 projetos se o filtro não encontrar resultados', () => {
+    cy.get('input[placeholder="Procurar Projeto..."]').clear().type('InexistenteXYZ');
+    cy.get('.sc-bZHSRq').should('have.length', 0);
+  });
+
+  it('Campo de busca deve estar visível e vazio ao carregar a página', () => {
+    cy.get('input[placeholder="Procurar Projeto..."]').should('be.visible').and('have.value', '');
+  });
+
 });
