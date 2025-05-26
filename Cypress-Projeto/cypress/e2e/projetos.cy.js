@@ -1,4 +1,4 @@
-describe('Testes da funcionalidade Projetos', () => {
+describe('Feature - Projetos', () => {
   beforeEach(() => {
     cy.visit('https://confianopai.com/');
     cy.get(':nth-child(2) > .sc-ktwOfi').type('paulov@');
