@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "7d4caec4-40bd-4340-8bc0-437667d959c8",
-		"name": "Lista Postman",
+		"name": "lista_postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "45100426",
 		"_collection_link": "https://iuryteixeira-336923.postman.co/workspace/Iury-Teixeira's-Workspace~8d5b1d50-a4a3-4b23-892e-f1d268f9707a/collection/45100426-7d4caec4-40bd-4340-8bc0-437667d959c8?action=share&source=collection_link&creator=45100426"
@@ -22,8 +22,19 @@
 										"exec": [
 											"pm.test(\"Captura do Token e do Header\", function () {\r",
 											"    var jsonData = pm.response.json();\r",
-											"    pm.environment.set(jsonData.headerName, jsonData.token);\r",
+											"    pm.environment.set(\"cookie_token\", jsonData.token);\r",
+											"    pm.environment.set(\"cookie_nome\", jsonData.headerName);\r",
 											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript",
@@ -52,8 +63,8 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "X-XSRF-TOKEN",
-										"value": "{{X-XSRF-TOKEN}}",
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
 										"type": "text"
 									}
 								],
@@ -102,8 +113,8 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "X-XSRF-TOKEN",
-										"value": "{{X-XSRF-TOKEN}}",
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
 										"type": "text"
 									}
 								],
@@ -118,7 +129,12 @@
 								}
 							},
 							"response": []
-						},
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
 						{
 							"name": "Criação Aluno",
 							"event": [
@@ -130,9 +146,33 @@
 											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
 											"});\r",
 											"\r",
+											"pm.test(\"Capturar o e-mail do corpo da requisição e salvar no ambiente\", function () {\r",
+											"    var requestBody = pm.request.body.raw;\r",
+											"    try {\r",
+											"        var jsonData = JSON.parse(requestBody);\r",
+											"        if (jsonData.email) {\r",
+											"            pm.environment.set(\"email\", jsonData.email);\r",
+											"        } else {\r",
+											"            console.log(\"Campo 'email' não encontrado no corpo da requisição\");\r",
+											"        }\r",
+											"    } catch (e) {\r",
+											"        console.log(\"Erro ao tentar parsear o corpo da requisição:\", e);\r",
+											"    }\r",
+											"});\r",
+											"\r",
 											"pm.test(\"Status code is 200\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
 											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -143,14 +183,14 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "X-XSRF-TOKEN",
-										"value": "{{X-XSRF-TOKEN}}",
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"email\": \"teste123@testeeee.br\",\r\n  \"nome\": \"testetesteteste12321\",\r\n  \"password\": \"123\",\r\n  \"accesso\": \"ROLE_USER\",\r\n  \"ativo\": 1\r\n}",
+									"raw": "{\r\n  \"email\": \"{{$randomAlphaNumeric}}{{$randomEmail}}\",\r\n  \"nome\": \"{{$randomAlphaNumeric}}{{$randomFirstName}} {{$randomLastName}}\",\r\n  \"password\": \"123\",\r\n  \"acesso\": \"USER\",\r\n  \"ativo\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -173,7 +213,130 @@
 							"response": []
 						},
 						{
-							"name": "Criação Aluno Copy",
+							"name": "Criação inválida de um aluno com tudo vázio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 406\", function () {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"\",\r\n  \"nome\": \"\",\r\n  \"password\": \"\",\r\n  \"acesso\": \"\",\r\n  \"ativo\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criação inválida de um aluno com body inválido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": ,\r\n  \"nome\": ,\r\n  \"password\": ,\r\n  \"acesso\": \"USER\",\r\n  \"ativo\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/add",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar se o usuário foi criado",
 							"event": [
 								{
 									"listen": "test",
@@ -194,15 +357,9 @@
 							],
 							"request": {
 								"method": "GET",
-								"header": [
-									{
-										"key": "X-XSRF-TOKEN",
-										"value": "{{X-XSRF-TOKEN}}",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/v1/Aluno/all",
+									"raw": "{{base_url}}/api/v1/Aluno/get/{{email}}",
 									"host": [
 										"{{base_url}}"
 									],
@@ -210,7 +367,8 @@
 										"api",
 										"v1",
 										"Aluno",
-										"all"
+										"get",
+										"{{email}}"
 									]
 								}
 							},
@@ -219,10 +377,78 @@
 					]
 				},
 				{
-					"name": "POST",
+					"name": "PUT",
 					"item": [
 						{
-							"name": "Criação inválida de um aluno",
+							"name": "Alteração de dados válidas para o usuário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Capturar o e-mail do corpo da requisição e salvar no ambiente\", function () {\r",
+											"    var requestBody = pm.request.body.raw;\r",
+											"    try {\r",
+											"        var jsonData = JSON.parse(requestBody);\r",
+											"        if (jsonData.email) {\r",
+											"            pm.environment.set(\"email\", jsonData.email);\r",
+											"        } else {\r",
+											"            console.log(\"Campo 'email' não encontrado no corpo da requisição\");\r",
+											"        }\r",
+											"    } catch (e) {\r",
+											"        console.log(\"Erro ao tentar parsear o corpo da requisição:\", e);\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"alterado+{{email}}\",\r\n  \"nome\": \"Alterado no PUT - {{email}}\",\r\n  \"password\": \"123\",\r\n  \"acesso\": \"USER\",\r\n  \"ativo\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/update/{{email}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"update",
+										"{{email}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alteração de dados com body inválido para o usuário",
 							"event": [
 								{
 									"listen": "test",
@@ -239,20 +465,30 @@
 										"type": "text/javascript",
 										"packages": {}
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [
 									{
-										"key": "X-XSRF-TOKEN",
-										"value": "{{X-XSRF-TOKEN}}",
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"email\": ,\r\n  \"name\": ,\r\n  \"password\": ,\r\n  \"access\": \"string\",\r\n  \"active\": 0\r\n}",
+									"raw": "{\r\n  \"email\": ,\r\n  \"nome\": ,\r\n  \"password\": ,\r\n  \"acesso\": \"USER\",\r\n  \"ativo\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -260,13 +496,232 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/orientador/add",
+									"raw": "{{base_url}}/api/v1/Aluno/update/{{email}}",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"orientador",
-										"add"
+										"api",
+										"v1",
+										"Aluno",
+										"update",
+										"{{email}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar se o usuário foi alterado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/get/{{email}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"get",
+										"{{email}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "Delete de um usuário existente",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/delete/{{email}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"delete",
+										"{{email}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete de um usuário que não existe",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"\",\r\n  \"nome\": \"\",\r\n  \"password\": \"\",\r\n  \"acesso\": \"\",\r\n  \"ativo\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/delete/nãoexiste@nãoexisteeeeeee.br",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"delete",
+										"nãoexiste@nãoexisteeeeeee.br"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificar se o usuário foi deletado",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/v1/Aluno/get/{{email}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Aluno",
+										"get",
+										"{{email}}"
 									]
 								}
 							},
@@ -275,6 +730,409 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Orientador",
+			"item": [
+				{
+					"name": "Criar Orientador Válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Capturar o e-mail do corpo da requisição e salvar no ambiente\", function () {",
+									"    var requestBody = pm.request.body.raw;",
+									"    try {",
+									"        var jsonData = JSON.parse(requestBody);",
+									"        if (jsonData.email) {",
+									"            pm.environment.set(\"email\", jsonData.email);",
+									"        } else {",
+									"            console.log(\"Campo 'email' não encontrado no corpo da requisição\");",
+									"        }",
+									"    } catch (e) {",
+									"        console.log(\"Erro ao tentar parsear o corpo da requisição:\", e);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Maria Silva {{$randomLastName}} {{$randomAlphaNumeric}}\",\n    \"email\": \"teste{{$randomFullName}}{{$randomAlphaNumeric}}@email.br\",\n    \"password\": \"SenhaSegura@123\",\n    \"acesso\": \"PROFESSOR\",\n    \"ativo\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Orientador Inválido (Erro 400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status 400 - Dados inválidos\", function() {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							},
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"\",\n    \"email\": \"email-invalido\",\n    \"senha\": \"123\"\n    \"acesso\": \"PROFESSOR\",\n    \"ativo\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todos Orientadores (GET)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status 200 - Sucesso\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Retorna array de orientadores\", function() {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Orientador por ID Válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status 200 - Sucesso\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/get/{{email}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"get",
+								"{{email}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Orientador por ID Inválido (Erro 404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status 404 - Não encontrado\", function() {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/get/99999999999999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"get",
+								"99999999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Orientador (PUT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status 200 - Atualizado\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Maria Silva Atualizada\",\n    \"email\": \"maria.atualizada@faculdade.edu.br\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Orientador/update/{{email}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Orientador",
+								"update",
+								"{{email}}"
+							]
+						}
+					},
+					"response": []
+					
+				},
+				{
+							"name": "Deletar Orientador (DELETE)",
+							"event": [
+								{
+								"listen": "test",
+								"script": {
+									"type": "text/javascript",
+									"exec": [
+									"pm.test(\"Status 200 - Removido\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});"
+									]
+								}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+								"raw": "{{base_url}}/orientadores/{{orientador_id}}",
+								"host": ["{{base_url}}"],
+								"path": ["orientadores", "{{orientador_id}}"]
+								}
+							},
+							"response": []
+							},
+							{
+							"name": "Verificar Orientador Deletado (Erro 404)",
+							"event": [
+								{
+								"listen": "test",
+								"script": {
+									"type": "text/javascript",
+									"exec": [
+									"pm.test(\"Status 404 - Já removido\", function() {",
+									"    pm.response.to.have.status(404);",
+									"});"
+									]
+								}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+								"raw": "{{base_url}}/orientadores/{{orientador_id}}",
+								"host": ["{{base_url}}"],
+								"path": ["orientadores", "{{orientador_id}}"]
+								}
+							},
+							"response": []
+        		}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "orientador_id",
+			"value": ""
 		}
 	]
 }
