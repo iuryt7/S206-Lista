@@ -63,7 +63,7 @@ Este repositório contém a implementação de testes automatizados para a API d
 
 5. Para gerar relatório:
    ```bash
-   newman run .\Lista_Postman.postman_collection.json -e confianopai.postman_environment.json -r htmlextra
+   newman run lista_postman.postman_collection.json -e confianopai.postman_environment.json -r htmlextra
    ```
 
 6. O relatório estará em: `/newman`
