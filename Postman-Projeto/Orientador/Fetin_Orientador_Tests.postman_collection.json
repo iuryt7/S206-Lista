@@ -213,4 +213,59 @@
           },
           "response": []
         },
-        
+        {
+          "name": "Deletar Orientador (DELETE)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200 - Removido\", function() {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orientadores/{{orientador_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["orientadores", "{{orientador_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verificar Orientador Deletado (Erro 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404 - Já removido\", function() {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orientadores/{{orientador_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["orientadores", "{{orientador_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
