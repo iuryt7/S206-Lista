@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1b6b52a9-c09c-458a-b27a-100415172276",
+		"_postman_id": "8d3fa0c7-4cb5-4d52-81ba-e3ee3a6736f2",
 		"name": "lista_postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45100426",
-		"_collection_link": "https://iuryteixeira-336923.postman.co/workspace/Iury-Teixeira's-Workspace~8d5b1d50-a4a3-4b23-892e-f1d268f9707a/collection/45100426-1b6b52a9-c09c-458a-b27a-100415172276?action=share&source=collection_link&creator=45100426"
+		"_exporter_id": "45051828"
 	},
 	"item": [
 		{
@@ -1148,44 +1147,8 @@
 			"name": "Projetos",
 			"item": [
 				{
-					"name": "POST",
+					"name": "TIME",
 					"item": [
-						{
-							"name": "Criar time",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "{{cookie_nome}}",
-										"value": "{{cookie_token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"titulo\":\"Team A\",\r\n  \"status\":\"Com Pendencia\",\r\n  \"paralela\":\"Outro\",\r\n  \"email_aluno1\":\"gato@gmail.com\",\r\n  \"orientador_email\":\"jonas@gmail.com\"\r\n  \"email_aluno2\":\"ph.passos@ges.inatel.br\",\r\n  \"email_aluno3\":\"gabiru@inatel.br\",\r\n  \"email_aluno4\":\"5p@gmail.com\",\r\n    \r\n    }",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/api/v1//Time/create",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"",
-										"Time",
-										"create"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "atualizar time",
 							"event": [
@@ -1264,11 +1227,62 @@
 						},
 						{
 							"name": "New Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": ""
+									"raw": "{{base_url}}/api/v1/Time/create?titulo=&orientador_email=chris@&status=Desclassificado&paralela=Outro&email_aluno1=gabiru@inatel.br",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Time",
+										"create"
+									],
+									"query": [
+										{
+											"key": "titulo",
+											"value": ""
+										},
+										{
+											"key": "orientador_email",
+											"value": "chris@"
+										},
+										{
+											"key": "status",
+											"value": "Desclassificado"
+										},
+										{
+											"key": "paralela",
+											"value": "Outro"
+										},
+										{
+											"key": "email_aluno1",
+											"value": "gabiru@inatel.br"
+										}
+									]
 								}
 							},
 							"response": []
