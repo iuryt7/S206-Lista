@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8d3fa0c7-4cb5-4d52-81ba-e3ee3a6736f2",
+		"_postman_id": "0b5beff5-18ee-403d-9ef2-bfdf5ffadce8",
 		"name": "lista_postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45051828"
+		"_exporter_id": "39270059"
 	},
 	"item": [
 		{
@@ -409,13 +409,6 @@
 										],
 										"type": "text/javascript",
 										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [],
-										"type": "text/javascript"
 									}
 								}
 							],
@@ -1144,150 +1137,602 @@
 			]
 		},
 		{
-			"name": "Projetos",
+			"name": "Adm",
 			"item": [
 				{
-					"name": "TIME",
-					"item": [
-						{
-							"name": "atualizar time",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
+					"name": "Listar Adms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Adm/all",
+							"host": [
+								"{{base_url}}"
 							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"titulo\":\"Team A\",\r\n  \"orientador_email\":\"jonas@gmail.com\"\r\n  \"status\":\"Com Pendencia\",\r\n  \"paralela\":\"Outro\",\r\n  \"email_aluno1\":\"gato@gmail.com\",\r\n  \r\n    \r\n }",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/api/v1//Time/update",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"",
-										"Time",
-										"update"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Verificação de existencia de um grupo que não exista",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 404\", function () {\r",
-											"    pm.response.to.have.status(404);});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
+							"path": [
+								"api",
+								"v1",
+								"Adm",
+								"all"
 							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{base_url}}/api/v1/Time/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"Time",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "New Request",
-							"event": [
+							"query": [
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
+									"key": "{{cookie_nome}}",
+									"value": "{{cookie_token}}",
+									"disabled": true
 								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "{{cookie_nome}}",
-										"value": "{{cookie_token}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/api/v1/Time/create?titulo=&orientador_email=chris@&status=Desclassificado&paralela=Outro&email_aluno1=gabiru@inatel.br",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"Time",
-										"create"
-									],
-									"query": [
-										{
-											"key": "titulo",
-											"value": ""
-										},
-										{
-											"key": "orientador_email",
-											"value": "chris@"
-										},
-										{
-											"key": "status",
-											"value": "Desclassificado"
-										},
-										{
-											"key": "paralela",
-											"value": "Outro"
-										},
-										{
-											"key": "email_aluno1",
-											"value": "gabiru@inatel.br"
-										}
-									]
-								}
-							},
-							"response": []
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Adm Válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Capturar o e-mail do corpo da requisição e salvar no ambiente\", function () {\r",
+									"    var requestBody = pm.request.body.raw;\r",
+									"    try {\r",
+									"        var jsonData = JSON.parse(requestBody);\r",
+									"        if (jsonData.email) {\r",
+									"            pm.environment.set(\"email\", jsonData.email);\r",
+									"        } else {\r",
+									"            console.log(\"Campo 'email' não encontrado no corpo da requisição\");\r",
+									"        }\r",
+									"    } catch (e) {\r",
+									"        console.log(\"Erro ao tentar parsear o corpo da requisição:\", e);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{$randomAlphaNumeric}}{{$randomEmail}}\",\r\n  \"nome\": \"{{$randomAlphaNumeric}}{{$randomFirstName}} {{$randomLastName}}\",\r\n  \"password\": \"12345\",\r\n  \"acesso\": \"ADM\",\r\n  \"ativo\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Adm/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Adm",
+								"add"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Adm Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Capturar o e-mail do corpo da requisição e salvar no ambiente\", function () {\r",
+									"    var requestBody = pm.request.body.raw;\r",
+									"    try {\r",
+									"        var jsonData = JSON.parse(requestBody);\r",
+									"        if (jsonData.email) {\r",
+									"            pm.environment.set(\"email\", jsonData.email);\r",
+									"        } else {\r",
+									"            console.log(\"Campo 'email' não encontrado no corpo da requisição\");\r",
+									"        }\r",
+									"    } catch (e) {\r",
+									"        console.log(\"Erro ao tentar parsear o corpo da requisição:\", e);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": ,\r\n  \"nome\": \"{{$randomAlphaNumeric}}{{$randomFirstName}} {{$randomLastName}}\",\r\n  \"password\": \"12345\",\r\n  \"acesso\": \"ADM\",\r\n  \"ativo\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Adm/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Adm",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Time",
+			"item": [
+				{
+					"name": "Criar Time Válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () { \r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);  \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/create?titulo=Time A + {{$randomAlphaNumeric}}&orientador_email=chris@&status=Desclassificado&paralela=Outro&email_aluno1=gabiru@inatel.br",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"create"
+							],
+							"query": [
+								{
+									"key": "titulo",
+									"value": "Time A + {{$randomAlphaNumeric}}"
+								},
+								{
+									"key": "orientador_email",
+									"value": "chris@"
+								},
+								{
+									"key": "status",
+									"value": "Desclassificado"
+								},
+								{
+									"key": "paralela",
+									"value": "Outro"
+								},
+								{
+									"key": "email_aluno1",
+									"value": "gabiru@inatel.br"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alterar nome do time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () { \r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);  \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/create?titulo=Time A + {{$randomAlphaNumeric}}&orientador_email=chris@&status=Desclassificado&paralela=Outro&email_aluno1=ppppp@Snatel.br",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"create"
+							],
+							"query": [
+								{
+									"key": "titulo",
+									"value": "Time A + {{$randomAlphaNumeric}}"
+								},
+								{
+									"key": "orientador_email",
+									"value": "chris@"
+								},
+								{
+									"key": "status",
+									"value": "Desclassificado"
+								},
+								{
+									"key": "paralela",
+									"value": "Outro"
+								},
+								{
+									"key": "email_aluno1",
+									"value": "ppppp@Snatel.br"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar time sem nome",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 500ms\", function () { \r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);  \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/create?titulo=&orientador_email=chris@&status=Desclassificado&paralela=Outro&email_aluno1=gabiru@inatel.br",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"create"
+							],
+							"query": [
+								{
+									"key": "titulo",
+									"value": ""
+								},
+								{
+									"key": "orientador_email",
+									"value": "chris@"
+								},
+								{
+									"key": "status",
+									"value": "Desclassificado"
+								},
+								{
+									"key": "paralela",
+									"value": "Outro"
+								},
+								{
+									"key": "email_aluno1",
+									"value": "gabiru@inatel.br"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Times",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Time 8",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Time Inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletando um time existente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"    "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "{{cookie_nome}}",
+								"value": "{{cookie_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"Team A\",\r\n  \"status\": \"\",\r\n  \"paralela\": \"Outro\",\r\n  \"email_aluno1\": \"gato@gmail.com\",\r\n  \"email_aluno2\": \"ph.passos@ges.inatel.br\",\r\n  \"email_aluno3\": \"gabiru@inatel.br\",\r\n  \"email_aluno4\": \"ppppp@gmail.com\",\r\n  \"orientador_email\": \"jonas@gmail.com\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/delete?numgrupo=142",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "numgrupo",
+									"value": "142"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletando um time inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"    "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Time/?numgrupo=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Time",
+								""
+							],
+							"query": [
+								{
+									"key": "numgrupo",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
