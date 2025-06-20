@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7d4caec4-40bd-4340-8bc0-437667d959c8",
+		"_postman_id": "8d3fa0c7-4cb5-4d52-81ba-e3ee3a6736f2",
 		"name": "lista_postman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45100426",
-		"_collection_link": "https://iuryteixeira-336923.postman.co/workspace/Iury-Teixeira's-Workspace~8d5b1d50-a4a3-4b23-892e-f1d268f9707a/collection/45100426-7d4caec4-40bd-4340-8bc0-437667d959c8?action=share&source=collection_link&creator=45100426"
+		"_exporter_id": "45051828"
 	},
 	"item": [
 		{
@@ -410,6 +409,13 @@
 										],
 										"type": "text/javascript",
 										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
 									}
 								}
 							],
@@ -1072,60 +1078,202 @@
 						}
 					},
 					"response": []
-					
 				},
 				{
-							"name": "Deletar Orientador (DELETE)",
-							"event": [
-								{
-								"listen": "test",
-								"script": {
-									"type": "text/javascript",
-									"exec": [
+					"name": "Deletar Orientador (DELETE)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
 									"pm.test(\"Status 200 - Removido\", function() {",
 									"    pm.response.to.have.status(200);",
 									"});"
-									]
-								}
-								}
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orientadores/{{orientador_id}}",
+							"host": [
+								"{{base_url}}"
 							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-								"raw": "{{base_url}}/orientadores/{{orientador_id}}",
-								"host": ["{{base_url}}"],
-								"path": ["orientadores", "{{orientador_id}}"]
-								}
-							},
-							"response": []
-							},
-							{
-							"name": "Verificar Orientador Deletado (Erro 404)",
-							"event": [
-								{
-								"listen": "test",
-								"script": {
-									"type": "text/javascript",
-									"exec": [
+							"path": [
+								"orientadores",
+								"{{orientador_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Orientador Deletado (Erro 404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
 									"pm.test(\"Status 404 - Já removido\", function() {",
 									"    pm.response.to.have.status(404);",
 									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orientadores/{{orientador_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orientadores",
+								"{{orientador_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projetos",
+			"item": [
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "Criar time",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{cookie_nome}}",
+										"value": "{{cookie_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"titulo\":\"Team A\",\r\n  \"status\":\"Com Pendencia\",\r\n  \"paralela\":\"Outro\",\r\n  \"email_aluno1\":\"gato@gmail.com\",\r\n  \"orientador_email\":\"jonas@gmail.com\"\r\n  \"email_aluno2\":\"ph.passos@ges.inatel.br\",\r\n  \"email_aluno3\":\"gabiru@inatel.br\",\r\n  \"email_aluno4\":\"5p@gmail.com\",\r\n    \r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1//Time/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"",
+										"Time",
+										"create"
 									]
 								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizar time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"titulo\":\"Team A\",\r\n  \"orientador_email\":\"jonas@gmail.com\"\r\n  \"status\":\"Com Pendencia\",\r\n  \"paralela\":\"Outro\",\r\n  \"email_aluno1\":\"gato@gmail.com\",\r\n  \r\n    \r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/v1//Time/update",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"",
+										"Time",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verificação de existencia de um grupo que não exista",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-								"raw": "{{base_url}}/orientadores/{{orientador_id}}",
-								"host": ["{{base_url}}"],
-								"path": ["orientadores", "{{orientador_id}}"]
+									"raw": "{{base_url}}/api/v1/Time/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"Time",
+										"1"
+									]
 								}
 							},
 							"response": []
-        		}
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					]
+				}
 			]
 		}
 	],
